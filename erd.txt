@@ -1,0 +1,54 @@
+KMDB Entity Relationship Diagram
+=================================
+
++----------------+          +----------------+          +----------------+
+|    STUDIOS     |          |     MOVIES     |          |     ROLES      |
++----------------+          +----------------+          +----------------+
+| id (PK)        |<-------->| id (PK)        |<-------->| id (PK)        |
+| name           |    1:N   | title          |    1:N   | movie_id (FK)  |
++----------------+          | year_released  |          | actor_id (FK)  |
+                            | mpaa_rating    |          | character_name |
+                            | studio_id (FK) |          +----------------+
+                            +----------------+                  |
+                                                                |
+                                                                | N:1
+                                                                |
+                                                                v
++----------------+          +----------------+
+|    AGENTS      |          |    ACTORS      |
++----------------+          +----------------+
+| id (PK)        |<-------->| id (PK)        |
+| first_name     |    1:N   | first_name     |
+| last_name      |          | last_name      |
++----------------+          | agent_id (FK)  |
+                            +----------------+
+
+RELATIONSHIPS:
+==============
+- STUDIOS (1) -----> (N) MOVIES
+  A studio produces many movies; a movie belongs to one studio.
+
+- MOVIES (1) -----> (N) ROLES
+  A movie has many roles; a role belongs to one movie.
+
+- ACTORS (1) -----> (N) ROLES
+  An actor plays many roles; a role is played by one actor.
+
+- AGENTS (1) -----> (N) ACTORS
+  An agent represents many actors; an actor has one agent (optional).
+
+MANY-TO-MANY RELATIONSHIP:
+==========================
+MOVIES <-----> ACTORS (via ROLES join table)
+  An actor can appear in multiple movies.
+  A movie can have multiple actors.
+  The ROLES table resolves this many-to-many relationship and stores
+  the character_name for each actor-movie combination.
+
+ENTITIES:
+=========
+1. STUDIOS - Movie production studios
+2. MOVIES - Films with title, year, rating
+3. ACTORS - People who act in movies
+4. AGENTS - Representatives for actors
+5. ROLES - Join table linking actors to movies with character names
