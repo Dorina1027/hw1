@@ -108,15 +108,6 @@ CREATE TABLE studios (
     name TEXT
 );
 
--- Movies table: stores movie information, belongs to a studio
-CREATE TABLE movies (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT,
-    year_released INTEGER,
-    mpaa_rating TEXT,
-    studio_id INTEGER
-);
-
 -- Agents table: stores agent information
 CREATE TABLE agents (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -124,21 +115,33 @@ CREATE TABLE agents (
     last_name TEXT
 );
 
+-- Movies table: stores movie information, belongs to a studio
+CREATE TABLE movies (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT,
+    year_released INTEGER,
+    mpaa_rating TEXT,
+    studio_id INTEGER,
+    FOREIGN KEY (studio_id) REFERENCES studios(id)
+);
+
 -- Actors table: stores actor information, can be represented by an agent
 CREATE TABLE actors (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     first_name TEXT,
     last_name TEXT,
-    agent_id INTEGER
+    agent_id INTEGER,
+    FOREIGN KEY (agent_id) REFERENCES agents(id)
 );
 
 -- Roles table: join table for many-to-many relationship between actors and movies
--- Stores the character name for each actor in each movie
 CREATE TABLE roles (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     movie_id INTEGER,
     actor_id INTEGER,
-    character_name TEXT
+    character_name TEXT,
+    FOREIGN KEY (movie_id) REFERENCES movies(id),
+    FOREIGN KEY (actor_id) REFERENCES actors(id)
 );
 
 -- Insert data into your database that reflects the sample data shown above
